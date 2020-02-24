@@ -1,0 +1,10 @@
+Bundle-Name: person-api
+Bundle-SymbolicName: com.rboudhar001.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.rboudhar001.exception,\
+	com.rboudhar001.model,\
+	com.rboudhar001.service,\
+	com.rboudhar001.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../person-service/service.xml

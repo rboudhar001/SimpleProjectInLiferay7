@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder auto-namespace-tables="true" package-path="com.rboudhar001">
+
+    <author>Rachid</author>
+	<namespace>FOO</namespace>
+
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity name="Person" local-service="true" uuid="true">
+	
+		<!-- PK fields -->
+
+		<column name="personId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="personName" type="String" />
+		<column name="personSurname" type="String" />
+		<column name="personBirthdate" type="Date" />
+		<column name="personEmail" type="String" />
+
+		<!-- Status fields -->
+
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="personName" />
+			<order-column name="personSurname" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="Person_FullName" return-type="Collection">
+			<finder-column name="personName" />
+			<finder-column name="personSurname" />
+		</finder>
+
+		<!-- References -->
+
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
+	
+</service-builder>
