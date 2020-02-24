@@ -1,5 +1,6 @@
 package com.rboudhar001.portlet;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
@@ -8,7 +9,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.rboudhar001.constants.MyDate;
 import com.rboudhar001.constants.PersonPortletKeys;
 import com.rboudhar001.model.Person;
-import com.rboudhar001.model.impl.PersonImpl;
 import com.rboudhar001.service.PersonLocalService;
 
 import java.io.IOException;
@@ -44,18 +44,18 @@ import org.osgi.service.component.annotations.Reference;
 	service = Portlet.class
 )
 public class PersonPortlet extends MVCPortlet {
-	
+
 	// Variables
-	
+
     private PersonLocalService mPersonLocalService;
-    
+   
     // Services
-    
+
 	@Reference(unbind = "-")
     protected void setPersonService(PersonLocalService personLocalService) {
 		mPersonLocalService = personLocalService;
     }
-
+	
 	// **************
 	// *** Render ***
 	// **************
@@ -69,13 +69,10 @@ public class PersonPortlet extends MVCPortlet {
 
 		try {
 
-			// Get Data from 'actionRequest'
-			int start = ParamUtil.getInteger(renderRequest, "personTablePagination");
-
 			// Get Persons from DB
-			List<Person> persons = mPersonLocalService.getPersons(start, start+10);
+			List<Person> persons = mPersonLocalService.getPersons(0, Integer.MAX_VALUE);
 
-			// Add Persons to 'renderRequest'
+			// Add Attributes to 'renderRequest'
 			renderRequest.setAttribute("persons", persons);
 
 		} catch (Exception e) {
@@ -85,11 +82,11 @@ public class PersonPortlet extends MVCPortlet {
 		// Render
 		super.render(renderRequest, renderResponse);
 	}
-	
+
 	// **************
 	// *** Action ***
 	// **************
-	
+
 	public void addPerson(ActionRequest actionRequest, ActionResponse actionResponse) {
 
 		// Security
@@ -104,7 +101,8 @@ public class PersonPortlet extends MVCPortlet {
 			String personEmail = ParamUtil.getString(actionRequest, "personEmail");
 
 			// Create Person
-			Person person = new PersonImpl();
+			long personId = CounterLocalServiceUtil.increment(Person.class.getName());
+			Person person = mPersonLocalService.createPerson(personId);
 			person.setPersonName(personName);
 			person.setPersonSurname(personSurname);
 			person.setPersonBirthdate(personBirthdate);
@@ -114,7 +112,7 @@ public class PersonPortlet extends MVCPortlet {
 			mPersonLocalService.addPerson(person);
 
 			// Success
-			SessionMessages.add(actionRequest, "personAdded"); 
+			SessionMessages.add(actionRequest, "personAdded");
 
 		} catch (Exception e) {
 

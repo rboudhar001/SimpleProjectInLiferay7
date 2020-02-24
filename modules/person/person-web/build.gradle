@@ -1,14 +1,14 @@
 dependencies {
 
-	// Added
-	compileOnly project(":modules:person:person-api")
-	compileOnly project(":modules:person:person-service")
-
-	// Auto-Generated
+	// Compile
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
 	compileOnly group: "javax.portlet", name: "portlet-api"
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	// Project
+	compileOnly project(":modules:person:person-api")
+	compileOnly project(":modules:person:person-service")
 }

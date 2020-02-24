@@ -14,9 +14,16 @@
 
 package com.rboudhar001.service.impl;
 
+import com.liferay.mail.kernel.model.MailMessage;
+import com.liferay.mail.kernel.service.MailServiceUtil;
 import com.liferay.portal.aop.AopService;
-
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
+import com.rboudhar001.model.Person;
 import com.rboudhar001.service.base.PersonLocalServiceBaseImpl;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -44,4 +51,34 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>com.rboudhar001.service.PersonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.rboudhar001.service.PersonLocalServiceUtil</code>.
 	 */
+	
+	/**
+	 * Adds the person to the database. Also notifies the appropriate model listeners.
+	 *
+	 * @param person the person
+	 * @return the person that was added
+	 */
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
+	public Person addPerson(Person person) {
+		
+		// Father method
+		Person p = super.addPerson(person);
+
+		// Send Email
+		try {
+
+			InternetAddress from = new InternetAddress("rboudhar001@gmail.com");
+			InternetAddress to = new InternetAddress(person.getPersonEmail());
+			MailMessage mail = new MailMessage(from, to, "Exercise Form", "Thanks for fill the form.", false);
+			MailServiceUtil.sendEmail(mail);
+
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Return
+		return p;
+	}
 }
