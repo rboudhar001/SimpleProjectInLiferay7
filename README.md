@@ -25,5 +25,6 @@ mail.session.mail.imap.host=localhost
 mail.session.mail.pop3.host=localhost
 </code>
 </br>
+
 4) Deploy in your Liferay Server (the three modules)
 5) Add the Portlet to your page
