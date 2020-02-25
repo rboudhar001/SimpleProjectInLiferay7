@@ -32,13 +32,6 @@
 		<column name="personBirthdate" type="Date" />
 		<column name="personEmail" type="String" />
 
-		<!-- Status fields -->
-
-		<column name="status" type="int" />
-		<column name="statusByUserId" type="long" />
-		<column name="statusByUserName" type="String" />
-		<column name="statusDate" type="Date" />
-
 		<!-- Order -->
 
 		<order by="asc">
@@ -59,5 +52,9 @@
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		
 	</entity>
+	
+	<exceptions>
+	    <exception>PersonEmail</exception>
+	</exceptions>
 	
 </service-builder>

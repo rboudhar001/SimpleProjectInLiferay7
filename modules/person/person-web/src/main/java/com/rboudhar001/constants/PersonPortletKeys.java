@@ -5,7 +5,5 @@ package com.rboudhar001.constants;
  */
 public class PersonPortletKeys {
 
-	public static final String PERSON =
-		"com_rboudhar001_PersonPortlet";
-
+	public static final String PERSON = "com_rboudhar001_PersonPortlet";
 }

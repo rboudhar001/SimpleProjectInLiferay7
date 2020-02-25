@@ -1,6 +1,7 @@
 package com.rboudhar001.portlet;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.captcha.CaptchaUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
@@ -21,6 +22,8 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -39,7 +42,7 @@ import org.osgi.service.component.annotations.Reference;
 		"javax.portlet.init-param.view-template=/view.jsp",
 		"javax.portlet.name=" + PersonPortletKeys.PERSON,
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user",
 	},
 	service = Portlet.class
 )
@@ -91,8 +94,10 @@ public class PersonPortlet extends MVCPortlet {
 
 		// Security
 		// ...
-
+		
 		try {
+			
+			CaptchaUtil.check(actionRequest);
 
 			// Get Data from 'actionRequest'
 			String personName = ParamUtil.getString(actionRequest, "personName");
@@ -124,8 +129,19 @@ public class PersonPortlet extends MVCPortlet {
 	}
 
 	// ****************
-	// *** Response ***
+	// *** Resource ***
 	// ****************
 
-	// ...
+	@Override
+    public void serveResource(
+        ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
+
+		try {
+
+			CaptchaUtil.serveImage(resourceRequest, resourceResponse);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    } 
 }

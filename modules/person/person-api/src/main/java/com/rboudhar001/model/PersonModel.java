@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
-import com.liferay.portal.kernel.model.WorkflowedModel;
 
 import java.util.Date;
 
@@ -38,8 +37,7 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface PersonModel
-	extends BaseModel<Person>, GroupedModel, ShardedModel, StagedAuditedModel,
-			WorkflowedModel {
+	extends BaseModel<Person>, GroupedModel, ShardedModel, StagedAuditedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -263,150 +261,5 @@ public interface PersonModel
 	 * @param personEmail the person email of this person
 	 */
 	public void setPersonEmail(String personEmail);
-
-	/**
-	 * Returns the status of this person.
-	 *
-	 * @return the status of this person
-	 */
-	@Override
-	public int getStatus();
-
-	/**
-	 * Sets the status of this person.
-	 *
-	 * @param status the status of this person
-	 */
-	@Override
-	public void setStatus(int status);
-
-	/**
-	 * Returns the status by user ID of this person.
-	 *
-	 * @return the status by user ID of this person
-	 */
-	@Override
-	public long getStatusByUserId();
-
-	/**
-	 * Sets the status by user ID of this person.
-	 *
-	 * @param statusByUserId the status by user ID of this person
-	 */
-	@Override
-	public void setStatusByUserId(long statusByUserId);
-
-	/**
-	 * Returns the status by user uuid of this person.
-	 *
-	 * @return the status by user uuid of this person
-	 */
-	@Override
-	public String getStatusByUserUuid();
-
-	/**
-	 * Sets the status by user uuid of this person.
-	 *
-	 * @param statusByUserUuid the status by user uuid of this person
-	 */
-	@Override
-	public void setStatusByUserUuid(String statusByUserUuid);
-
-	/**
-	 * Returns the status by user name of this person.
-	 *
-	 * @return the status by user name of this person
-	 */
-	@AutoEscape
-	@Override
-	public String getStatusByUserName();
-
-	/**
-	 * Sets the status by user name of this person.
-	 *
-	 * @param statusByUserName the status by user name of this person
-	 */
-	@Override
-	public void setStatusByUserName(String statusByUserName);
-
-	/**
-	 * Returns the status date of this person.
-	 *
-	 * @return the status date of this person
-	 */
-	@Override
-	public Date getStatusDate();
-
-	/**
-	 * Sets the status date of this person.
-	 *
-	 * @param statusDate the status date of this person
-	 */
-	@Override
-	public void setStatusDate(Date statusDate);
-
-	/**
-	 * Returns <code>true</code> if this person is approved.
-	 *
-	 * @return <code>true</code> if this person is approved; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isApproved();
-
-	/**
-	 * Returns <code>true</code> if this person is denied.
-	 *
-	 * @return <code>true</code> if this person is denied; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDenied();
-
-	/**
-	 * Returns <code>true</code> if this person is a draft.
-	 *
-	 * @return <code>true</code> if this person is a draft; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDraft();
-
-	/**
-	 * Returns <code>true</code> if this person is expired.
-	 *
-	 * @return <code>true</code> if this person is expired; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isExpired();
-
-	/**
-	 * Returns <code>true</code> if this person is inactive.
-	 *
-	 * @return <code>true</code> if this person is inactive; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isInactive();
-
-	/**
-	 * Returns <code>true</code> if this person is incomplete.
-	 *
-	 * @return <code>true</code> if this person is incomplete; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isIncomplete();
-
-	/**
-	 * Returns <code>true</code> if this person is pending.
-	 *
-	 * @return <code>true</code> if this person is pending; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isPending();
-
-	/**
-	 * Returns <code>true</code> if this person is scheduled.
-	 *
-	 * @return <code>true</code> if this person is scheduled; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isScheduled();
 
 }

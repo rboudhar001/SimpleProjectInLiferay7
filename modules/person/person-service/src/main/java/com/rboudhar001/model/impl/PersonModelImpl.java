@@ -30,7 +30,6 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import com.rboudhar001.model.Person;
 import com.rboudhar001.model.PersonModel;
@@ -84,9 +83,7 @@ public class PersonModelImpl
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"personName", Types.VARCHAR}, {"personSurname", Types.VARCHAR},
-		{"personBirthdate", Types.TIMESTAMP}, {"personEmail", Types.VARCHAR},
-		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
-		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
+		{"personBirthdate", Types.TIMESTAMP}, {"personEmail", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -105,14 +102,10 @@ public class PersonModelImpl
 		TABLE_COLUMNS_MAP.put("personSurname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("personBirthdate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("personEmail", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
-		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table FOO_Person (uuid_ VARCHAR(75) null,personId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,personName VARCHAR(75) null,personSurname VARCHAR(75) null,personBirthdate DATE null,personEmail VARCHAR(75) null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table FOO_Person (uuid_ VARCHAR(75) null,personId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,personName VARCHAR(75) null,personSurname VARCHAR(75) null,personBirthdate DATE null,personEmail VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table FOO_Person";
 
@@ -171,10 +164,6 @@ public class PersonModelImpl
 		model.setPersonSurname(soapModel.getPersonSurname());
 		model.setPersonBirthdate(soapModel.getPersonBirthdate());
 		model.setPersonEmail(soapModel.getPersonEmail());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
 
 		return model;
 	}
@@ -358,22 +347,6 @@ public class PersonModelImpl
 		attributeGetterFunctions.put("personEmail", Person::getPersonEmail);
 		attributeSetterBiConsumers.put(
 			"personEmail", (BiConsumer<Person, String>)Person::setPersonEmail);
-		attributeGetterFunctions.put("status", Person::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Person, Integer>)Person::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", Person::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<Person, Long>)Person::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", Person::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<Person, String>)Person::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", Person::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<Person, Date>)Person::setStatusDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -614,155 +587,10 @@ public class PersonModelImpl
 		_personEmail = personEmail;
 	}
 
-	@JSON
-	@Override
-	public int getStatus() {
-		return _status;
-	}
-
-	@Override
-	public void setStatus(int status) {
-		_status = status;
-	}
-
-	@JSON
-	@Override
-	public long getStatusByUserId() {
-		return _statusByUserId;
-	}
-
-	@Override
-	public void setStatusByUserId(long statusByUserId) {
-		_statusByUserId = statusByUserId;
-	}
-
-	@Override
-	public String getStatusByUserUuid() {
-		try {
-			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
-
-			return user.getUuid();
-		}
-		catch (PortalException pe) {
-			return "";
-		}
-	}
-
-	@Override
-	public void setStatusByUserUuid(String statusByUserUuid) {
-	}
-
-	@JSON
-	@Override
-	public String getStatusByUserName() {
-		if (_statusByUserName == null) {
-			return "";
-		}
-		else {
-			return _statusByUserName;
-		}
-	}
-
-	@Override
-	public void setStatusByUserName(String statusByUserName) {
-		_statusByUserName = statusByUserName;
-	}
-
-	@JSON
-	@Override
-	public Date getStatusDate() {
-		return _statusDate;
-	}
-
-	@Override
-	public void setStatusDate(Date statusDate) {
-		_statusDate = statusDate;
-	}
-
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(Person.class.getName()));
-	}
-
-	@Override
-	public boolean isApproved() {
-		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isDenied() {
-		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isDraft() {
-		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isExpired() {
-		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isInactive() {
-		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isIncomplete() {
-		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isPending() {
-		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public boolean isScheduled() {
-		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
-			return true;
-		}
-		else {
-			return false;
-		}
 	}
 
 	public long getColumnBitmask() {
@@ -813,10 +641,6 @@ public class PersonModelImpl
 		personImpl.setPersonSurname(getPersonSurname());
 		personImpl.setPersonBirthdate(getPersonBirthdate());
 		personImpl.setPersonEmail(getPersonEmail());
-		personImpl.setStatus(getStatus());
-		personImpl.setStatusByUserId(getStatusByUserId());
-		personImpl.setStatusByUserName(getStatusByUserName());
-		personImpl.setStatusDate(getStatusDate());
 
 		personImpl.resetOriginalValues();
 
@@ -981,27 +805,6 @@ public class PersonModelImpl
 			personCacheModel.personEmail = null;
 		}
 
-		personCacheModel.status = getStatus();
-
-		personCacheModel.statusByUserId = getStatusByUserId();
-
-		personCacheModel.statusByUserName = getStatusByUserName();
-
-		String statusByUserName = personCacheModel.statusByUserName;
-
-		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
-			personCacheModel.statusByUserName = null;
-		}
-
-		Date statusDate = getStatusDate();
-
-		if (statusDate != null) {
-			personCacheModel.statusDate = statusDate.getTime();
-		}
-		else {
-			personCacheModel.statusDate = Long.MIN_VALUE;
-		}
-
 		return personCacheModel;
 	}
 
@@ -1096,10 +899,6 @@ public class PersonModelImpl
 	private String _originalPersonSurname;
 	private Date _personBirthdate;
 	private String _personEmail;
-	private int _status;
-	private long _statusByUserId;
-	private String _statusByUserName;
-	private Date _statusDate;
 	private long _columnBitmask;
 	private Person _escapedModel;
 

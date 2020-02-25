@@ -64,7 +64,7 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -90,14 +90,6 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 		sb.append(personBirthdate);
 		sb.append(", personEmail=");
 		sb.append(personEmail);
-		sb.append(", status=");
-		sb.append(status);
-		sb.append(", statusByUserId=");
-		sb.append(statusByUserId);
-		sb.append(", statusByUserName=");
-		sb.append(statusByUserName);
-		sb.append(", statusDate=");
-		sb.append(statusDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -168,23 +160,6 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 			personImpl.setPersonEmail(personEmail);
 		}
 
-		personImpl.setStatus(status);
-		personImpl.setStatusByUserId(statusByUserId);
-
-		if (statusByUserName == null) {
-			personImpl.setStatusByUserName("");
-		}
-		else {
-			personImpl.setStatusByUserName(statusByUserName);
-		}
-
-		if (statusDate == Long.MIN_VALUE) {
-			personImpl.setStatusDate(null);
-		}
-		else {
-			personImpl.setStatusDate(new Date(statusDate));
-		}
-
 		personImpl.resetOriginalValues();
 
 		return personImpl;
@@ -208,12 +183,6 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 		personSurname = objectInput.readUTF();
 		personBirthdate = objectInput.readLong();
 		personEmail = objectInput.readUTF();
-
-		status = objectInput.readInt();
-
-		statusByUserId = objectInput.readLong();
-		statusByUserName = objectInput.readUTF();
-		statusDate = objectInput.readLong();
 	}
 
 	@Override
@@ -265,19 +234,6 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 		else {
 			objectOutput.writeUTF(personEmail);
 		}
-
-		objectOutput.writeInt(status);
-
-		objectOutput.writeLong(statusByUserId);
-
-		if (statusByUserName == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(statusByUserName);
-		}
-
-		objectOutput.writeLong(statusDate);
 	}
 
 	public String uuid;
@@ -292,9 +248,5 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 	public String personSurname;
 	public long personBirthdate;
 	public String personEmail;
-	public int status;
-	public long statusByUserId;
-	public String statusByUserName;
-	public long statusDate;
 
 }

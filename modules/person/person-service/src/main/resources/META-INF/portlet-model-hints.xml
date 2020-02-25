@@ -14,9 +14,5 @@
 		<field name="personSurname" type="String" />
 		<field name="personBirthdate" type="Date" />
 		<field name="personEmail" type="String" />
-		<field name="status" type="int" />
-		<field name="statusByUserId" type="long" />
-		<field name="statusByUserName" type="String" />
-		<field name="statusDate" type="Date" />
 	</model>
 </model-hints>

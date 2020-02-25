@@ -10,9 +10,5 @@ create table FOO_Person (
 	personName VARCHAR(75) null,
 	personSurname VARCHAR(75) null,
 	personBirthdate DATE null,
-	personEmail VARCHAR(75) null,
-	status INTEGER,
-	statusByUserId LONG,
-	statusByUserName VARCHAR(75) null,
-	statusDate DATE null
+	personEmail VARCHAR(75) null
 );

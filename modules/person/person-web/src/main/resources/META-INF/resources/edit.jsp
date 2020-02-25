@@ -1,11 +1,16 @@
 <%@ include file="/init.jsp"%>
 
+<!-- Import -->
+<%@ taglib uri="http://liferay.com/tld/captcha" prefix="liferay-captcha" %>
+
 <!-- Variables -->
 <portlet:renderURL var="viewPersonURL">
 	<portlet:param name="mvcPath" value="/view.jsp"></portlet:param>
 </portlet:renderURL>
 
 <portlet:actionURL var="addPersonURL" name="addPerson"></portlet:actionURL>
+
+<portlet:resourceURL id="/person/captcha" var="captchaURL"/>
 
 <!-- View -->
 <div>
@@ -18,6 +23,9 @@
 			<aui:input type="date" name="personBirthdate" label="Birthdate"></aui:input>
 			<aui:input name="personEmail" label="Email"></aui:input>
 		</aui:fieldset>
+		<div>
+			<liferay-captcha:captcha url="${captchaURL}" />
+		</div>
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>
 			<aui:button type="cancel" onClick="${viewPersonURL}"></aui:button>
