@@ -11,6 +11,7 @@ Instructions
 2) Import in your Liferay IDE as Gradle Project
 3) Build the Project with Gradle
 4) Add in your portal-ext.properties the next properties
+
 <code>
 mail.session.mail.store.protocol=imap
 mail.session.mail.transport.protocol=smtp
